@@ -92,7 +92,8 @@ npm run start:dev
 * binapi-interface：平台提供的接口服务，目前只有简单的几个接口，大家可以自行拓展
 * binapi-order：订单服务，提供对订单的操作
 * binapi-third-party：第三方服务，包含阿里云oss、支付宝沙箱支付、腾讯短信服务
-
+* binapi-client-sdk：提供给开发者的SDK
+  ![image-20230513211723627](https://niumapicgo.oss-cn-beijing.aliyuncs.com/images/image-20230513211723627.png)
 ## 系统架构
 
 > 仅供参考
