@@ -3,6 +3,9 @@
 > 一个丰富的API开放调用平台，为开发者提供便捷、实用的API调用体验
 >
 > Java + React 全栈项目，包括网站前台+管理员后台
+> 项目后端开源代码：https://github.com/ishuaige/binapi-backend
+> 项目前端开源代码：https://github.com/ishuaige/binapi-frontend
+
 
 ## 项目介绍
 
@@ -39,6 +42,24 @@ Bin API 平台在开发者注册后，只需要找到需要的接口，获取接
 * 服务调用：Dubbo
 * 网关：Spring Cloud  Gateway
 * 负载均衡：Spring cloud Loadbalancer
+
+## 快速上手
+
+### 前端
+
+环境要求：Node.js >= 14
+
+安装依赖：
+
+```
+yarn
+```
+
+启动：
+
+```
+npm run start:dev
+```
 
 ## 功能模块
 
