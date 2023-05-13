@@ -1,13 +1,5 @@
 import Footer from '@/components/Footer';
-import { getFakeCaptcha } from '@/services/ant-design-pro/login';
-import {
-  AlipayCircleOutlined,
-  LockOutlined,
-  MobileOutlined,
-  TaobaoCircleOutlined,
-  UserOutlined,
-  WeiboCircleOutlined,
-} from '@ant-design/icons';
+import { LockOutlined, MobileOutlined, UserOutlined } from '@ant-design/icons';
 import {
   LoginForm,
   ProFormCaptcha,
@@ -18,9 +10,12 @@ import { history, useModel } from '@umijs/max';
 import { Alert, message, Tabs } from 'antd';
 import React, { useState } from 'react';
 import styles from './index.less';
-import {smsCaptchaUsingGET, userLoginUsingPOST} from '@/services/binapi/userController';
+import {
+  smsCaptchaUsingGET,
+  userLoginBySmsUsingPOST,
+  userLoginUsingPOST,
+} from '@/api/binapi-backend/userController';
 import { Link } from '@@/exports';
-import { userLoginBySmsUsingPOST } from '@/services/binapi/userController';
 
 const LoginMessage: React.FC<{
   content: string;
@@ -44,12 +39,12 @@ const Login: React.FC = () => {
   const handleSubmit = async (values: API.UserLoginRequest) => {
     try {
       let res;
-      if(type === 'account'){
+      if (type === 'account') {
         // 登录
-         res = await userLoginUsingPOST({
+        res = await userLoginUsingPOST({
           ...values,
         });
-      }else {
+      } else {
         res = await userLoginBySmsUsingPOST({
           ...values,
         });
@@ -77,25 +72,26 @@ const Login: React.FC = () => {
       <div className={styles.content}>
         <LoginForm
           logo={<img alt="logo" src="/logo.svg" />}
-          title="Ant Design"
+          title="Bin API"
           subTitle={
             <>
               {/* eslint-disable-next-line react/no-unescaped-entities */}
               <p>
-                <a>Good Good Study,Day Day up!</a>
+                <b>一个丰富的API开放调用平台</b>
               </p>
-              <Link to="/user/register">新用户注册</Link>
             </>
           }
           initialValues={{
             autoLogin: true,
           }}
-          actions={[
-            '其他登录方式 :',
-            <AlipayCircleOutlined key="AlipayCircleOutlined" className={styles.icon} />,
-            <TaobaoCircleOutlined key="TaobaoCircleOutlined" className={styles.icon} />,
-            <WeiboCircleOutlined key="WeiboCircleOutlined" className={styles.icon} />,
-          ]}
+          actions={
+            [
+              // '其他登录方式 :',
+              // <AlipayCircleOutlined key="AlipayCircleOutlined" className={styles.icon} />,
+              // <TaobaoCircleOutlined key="TaobaoCircleOutlined" className={styles.icon} />,
+              // <WeiboCircleOutlined key="WeiboCircleOutlined" className={styles.icon} />,
+            ]
+          }
           onFinish={async (values) => {
             await handleSubmit(values as API.UserLoginRequest);
           }}
@@ -127,11 +123,11 @@ const Login: React.FC = () => {
                   size: 'large',
                   prefix: <UserOutlined className={styles.prefixIcon} />,
                 }}
-                placeholder={'用户名: admin or user'}
+                placeholder={'账号'}
                 rules={[
                   {
                     required: true,
-                    message: '用户名是必填项！',
+                    message: '账号是必填项！',
                   },
                 ]}
               />
@@ -141,7 +137,7 @@ const Login: React.FC = () => {
                   size: 'large',
                   prefix: <LockOutlined className={styles.prefixIcon} />,
                 }}
-                placeholder={'密码: ant.design'}
+                placeholder={'密码'}
                 rules={[
                   {
                     required: true,
@@ -216,13 +212,14 @@ const Login: React.FC = () => {
             <ProFormCheckbox noStyle name="autoLogin">
               自动登录
             </ProFormCheckbox>
-            <a
+            <Link
               style={{
                 float: 'right',
               }}
+              to={'/user/register'}
             >
-              忘记密码 ?
-            </a>
+              没有账号？去注册
+            </Link>
           </div>
         </LoginForm>
       </div>

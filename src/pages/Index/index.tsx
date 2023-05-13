@@ -1,7 +1,7 @@
 import { PageContainer } from '@ant-design/pro-components';
 import { List, message } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { listInterfaceInfoByPageUsingGET } from '@/services/binapi/interfaceController';
+import { listInterfaceInfoByPageUsingGET } from '@/api/binapi-backend/interfaceInfoController';
 
 const Index: React.FC = () => {
   const [loading, setLoading] = useState(false);

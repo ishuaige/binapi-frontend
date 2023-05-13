@@ -1,5 +1,4 @@
-import { outLogin } from '@/services/ant-design-pro/api';
-import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
+import { ContactsOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { history, useModel } from '@umijs/max';
 import { Avatar, Menu, Spin } from 'antd';
 import type { ItemType } from 'antd/es/menu/hooks/useItems';
@@ -9,7 +8,7 @@ import React, { useCallback } from 'react';
 import { flushSync } from 'react-dom';
 import HeaderDropdown from '../HeaderDropdown';
 import styles from './index.less';
-import {userLogoutUsingPOST} from "@/services/binapi/userController";
+import { userLogoutUsingPOST } from '@/api/binapi-backend/userController';
 
 export type GlobalHeaderRightProps = {
   menu?: boolean;
@@ -40,11 +39,16 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   const onMenuClick = useCallback(
     (event: MenuInfo) => {
       const { key } = event;
+      console.log(key)
       if (key === 'logout') {
         flushSync(() => {
           setInitialState((s) => ({ ...s, loginUser: undefined }));
         });
         loginOut();
+        return;
+      }
+      if (key === 'info') {
+        history.push('/user/info');
         return;
       }
       history.push(`/account/${key}`);
@@ -70,28 +74,16 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
 
   const { loginUser } = initialState;
 
-  if (!loginUser ) {
+  if (!loginUser) {
     return loading;
   }
 
   const menuItems: ItemType[] = [
-    ...(menu
-      ? [
-          {
-            key: 'center',
-            icon: <UserOutlined />,
-            label: '个人中心',
-          },
-          {
-            key: 'settings',
-            icon: <SettingOutlined />,
-            label: '个人设置',
-          },
-          {
-            type: 'divider' as const,
-          },
-        ]
-      : []),
+    {
+      key: 'info',
+      icon: <ContactsOutlined />,
+      label: '个人中心',
+    },
     {
       key: 'logout',
       icon: <LogoutOutlined />,
@@ -106,8 +98,18 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   return (
     <HeaderDropdown overlay={menuHeaderDropdown}>
       <span className={`${styles.action} ${styles.account}`}>
-        <Avatar size="small" className={styles.avatar} src={loginUser.userAvatar} alt="avatar" />
-        <span className={`${styles.name} anticon`}>{loginUser.userName}</span>
+        <Avatar
+          size="small"
+          className={styles.avatar}
+          src={
+            loginUser.userAvatar
+          }
+          icon={<UserOutlined />}
+          alt="avatar"
+        />
+        <span className={`${styles.name} anticon`}>
+          {loginUser.userName ?? loginUser.userAccount}
+        </span>
       </span>
     </HeaderDropdown>
   );

@@ -5,9 +5,21 @@ declare namespace API {
     message?: string;
   };
 
-  type BaseResponseInterfaceInfo = {
+  type BaseResponseInterfaceCharging = {
     code?: number;
-    data?: InterfaceInfo;
+    data?: InterfaceCharging;
+    message?: string;
+  };
+
+  type BaseResponseInterfaceInfoVO = {
+    code?: number;
+    data?: InterfaceInfoVO;
+    message?: string;
+  };
+
+  type BaseResponseListInterfaceCharging = {
+    code?: number;
+    data?: InterfaceCharging[];
     message?: string;
   };
 
@@ -17,9 +29,27 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponseListInterfaceInfoVO = {
+    code?: number;
+    data?: InterfaceInfoVO[];
+    message?: string;
+  };
+
+  type BaseResponseListOrderVO = {
+    code?: number;
+    data?: OrderVO[];
+    message?: string;
+  };
+
   type BaseResponseListUserInterfaceInfo = {
     code?: number;
     data?: UserInterfaceInfo[];
+    message?: string;
+  };
+
+  type BaseResponseListUserInterfaceInfoVO = {
+    code?: number;
+    data?: UserInterfaceInfoVO[];
     message?: string;
   };
 
@@ -38,6 +68,12 @@ declare namespace API {
   type BaseResponseobject = {
     code?: number;
     data?: Record<string, any>;
+    message?: string;
+  };
+
+  type BaseResponsePageInterfaceCharging = {
+    code?: number;
+    data?: PageInterfaceCharging;
     message?: string;
   };
 
@@ -71,6 +107,12 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponseUserDevKeyVO = {
+    code?: number;
+    data?: UserDevKeyVO;
+    message?: string;
+  };
+
   type BaseResponseUserInterfaceInfo = {
     code?: number;
     data?: UserInterfaceInfo;
@@ -87,9 +129,19 @@ declare namespace API {
     id?: number;
   };
 
+  type getInterfaceChargingByIdUsingGETParams = {
+    /** id */
+    id?: number;
+  };
+
   type getInterfaceInfoByIdUsingGETParams = {
     /** id */
     id?: number;
+  };
+
+  type getInterfaceInfoByUserIdUsingGETParams = {
+    /** userId */
+    userId: number;
   };
 
   type getUserByIdUsingGETParams = {
@@ -106,12 +158,47 @@ declare namespace API {
     id?: number;
   };
 
+  type InterfaceCharging = {
+    availablePieces?: string;
+    charging?: number;
+    createTime?: string;
+    id?: number;
+    interfaceId?: number;
+    isDelete?: number;
+    updateTime?: string;
+    userId?: number;
+  };
+
+  type InterfaceChargingAddRequest = {
+    description?: string;
+    method?: string;
+    name?: string;
+    requestHeader?: string;
+    requestParams?: string;
+    responseHeader?: string;
+    url?: string;
+  };
+
+  type InterfaceChargingUpdateRequest = {
+    description?: string;
+    id?: number;
+    method?: string;
+    name?: string;
+    requestHeader?: string;
+    requestParams?: string;
+    responseHeader?: string;
+    status?: number;
+    url?: string;
+    userId?: number;
+  };
+
   type InterfaceInfo = {
     createTime?: string;
     description?: string;
     id?: number;
     isDelete?: number;
     method?: string;
+    methodName?: string;
     name?: string;
     requestHeader?: string;
     requestParams?: string;
@@ -145,6 +232,59 @@ declare namespace API {
     requestHeader?: string;
     requestParams?: string;
     responseHeader?: string;
+    status?: number;
+    url?: string;
+    userId?: number;
+  };
+
+  type InterfaceInfoVO = {
+    availablePieces?: string;
+    charging?: number;
+    chargingId?: number;
+    createTime?: string;
+    description?: string;
+    id?: number;
+    method?: string;
+    name?: string;
+    requestHeader?: string;
+    requestParams?: string;
+    responseHeader?: string;
+    status?: number;
+    totalNum?: number;
+    updateTime?: string;
+    url?: string;
+    userId?: number;
+  };
+
+  type listInterfaceChargingByPageUsingGETParams = {
+    current?: number;
+    description?: string;
+    id?: number;
+    method?: string;
+    name?: string;
+    pageSize?: number;
+    requestHeader?: string;
+    requestParams?: string;
+    responseHeader?: string;
+    sortField?: string;
+    sortOrder?: string;
+    status?: number;
+    url?: string;
+    userId?: number;
+  };
+
+  type listInterfaceChargingUsingGETParams = {
+    current?: number;
+    description?: string;
+    id?: number;
+    method?: string;
+    name?: string;
+    pageSize?: number;
+    requestHeader?: string;
+    requestParams?: string;
+    responseHeader?: string;
+    sortField?: string;
+    sortOrder?: string;
     status?: number;
     url?: string;
     userId?: number;
@@ -240,87 +380,36 @@ declare namespace API {
     userRole?: string;
   };
 
-  type ModelAndView = {
-    empty?: boolean;
-    model?: Record<string, any>;
-    modelMap?: Record<string, any>;
-    reference?: boolean;
-    status?:
-      | 'ACCEPTED'
-      | 'ALREADY_REPORTED'
-      | 'BAD_GATEWAY'
-      | 'BAD_REQUEST'
-      | 'BANDWIDTH_LIMIT_EXCEEDED'
-      | 'CHECKPOINT'
-      | 'CONFLICT'
-      | 'CONTINUE'
-      | 'CREATED'
-      | 'DESTINATION_LOCKED'
-      | 'EXPECTATION_FAILED'
-      | 'FAILED_DEPENDENCY'
-      | 'FORBIDDEN'
-      | 'FOUND'
-      | 'GATEWAY_TIMEOUT'
-      | 'GONE'
-      | 'HTTP_VERSION_NOT_SUPPORTED'
-      | 'IM_USED'
-      | 'INSUFFICIENT_SPACE_ON_RESOURCE'
-      | 'INSUFFICIENT_STORAGE'
-      | 'INTERNAL_SERVER_ERROR'
-      | 'I_AM_A_TEAPOT'
-      | 'LENGTH_REQUIRED'
-      | 'LOCKED'
-      | 'LOOP_DETECTED'
-      | 'METHOD_FAILURE'
-      | 'METHOD_NOT_ALLOWED'
-      | 'MOVED_PERMANENTLY'
-      | 'MOVED_TEMPORARILY'
-      | 'MULTIPLE_CHOICES'
-      | 'MULTI_STATUS'
-      | 'NETWORK_AUTHENTICATION_REQUIRED'
-      | 'NON_AUTHORITATIVE_INFORMATION'
-      | 'NOT_ACCEPTABLE'
-      | 'NOT_EXTENDED'
-      | 'NOT_FOUND'
-      | 'NOT_IMPLEMENTED'
-      | 'NOT_MODIFIED'
-      | 'NO_CONTENT'
-      | 'OK'
-      | 'PARTIAL_CONTENT'
-      | 'PAYLOAD_TOO_LARGE'
-      | 'PAYMENT_REQUIRED'
-      | 'PERMANENT_REDIRECT'
-      | 'PRECONDITION_FAILED'
-      | 'PRECONDITION_REQUIRED'
-      | 'PROCESSING'
-      | 'PROXY_AUTHENTICATION_REQUIRED'
-      | 'REQUESTED_RANGE_NOT_SATISFIABLE'
-      | 'REQUEST_ENTITY_TOO_LARGE'
-      | 'REQUEST_HEADER_FIELDS_TOO_LARGE'
-      | 'REQUEST_TIMEOUT'
-      | 'REQUEST_URI_TOO_LONG'
-      | 'RESET_CONTENT'
-      | 'SEE_OTHER'
-      | 'SERVICE_UNAVAILABLE'
-      | 'SWITCHING_PROTOCOLS'
-      | 'TEMPORARY_REDIRECT'
-      | 'TOO_EARLY'
-      | 'TOO_MANY_REQUESTS'
-      | 'UNAUTHORIZED'
-      | 'UNAVAILABLE_FOR_LEGAL_REASONS'
-      | 'UNPROCESSABLE_ENTITY'
-      | 'UNSUPPORTED_MEDIA_TYPE'
-      | 'UPGRADE_REQUIRED'
-      | 'URI_TOO_LONG'
-      | 'USE_PROXY'
-      | 'VARIANT_ALSO_NEGOTIATES';
-    view?: View;
-    viewName?: string;
-  };
-
   type OrderItem = {
     asc?: boolean;
     column?: string;
+  };
+
+  type OrderVO = {
+    charging?: number;
+    createTime?: string;
+    expirationTime?: string;
+    interfaceDesc?: string;
+    interfaceId?: number;
+    interfaceName?: string;
+    orderNumber?: string;
+    status?: number;
+    total?: number;
+    totalAmount?: number;
+    userId?: number;
+  };
+
+  type PageInterfaceCharging = {
+    countId?: string;
+    current?: number;
+    maxLimit?: number;
+    optimizeCountSql?: boolean;
+    orders?: OrderItem[];
+    pages?: number;
+    records?: InterfaceCharging[];
+    searchCount?: boolean;
+    size?: number;
+    total?: number;
   };
 
   type PageInterfaceInfo = {
@@ -392,6 +481,11 @@ declare namespace API {
     userRole?: string;
   };
 
+  type UserDevKeyVO = {
+    accessKey?: string;
+    secretKey?: string;
+  };
+
   type UserInterfaceInfo = {
     createTime?: string;
     id?: number;
@@ -418,6 +512,19 @@ declare namespace API {
     totalNum?: number;
   };
 
+  type UserInterfaceInfoVO = {
+    description?: string;
+    id?: number;
+    interfaceInfoId?: number;
+    interfaceStatus?: number;
+    leftNum?: number;
+    method?: string;
+    name?: string;
+    status?: number;
+    totalNum?: number;
+    url?: string;
+  };
+
   type UserLoginRequest = {
     phoneCaptcha?: string;
     phoneNum?: string;
@@ -431,6 +538,7 @@ declare namespace API {
     phoneCaptcha?: string;
     phoneNum?: string;
     userAccount?: string;
+    userName?: string;
     userPassword?: string;
   };
 
@@ -448,14 +556,11 @@ declare namespace API {
     createTime?: string;
     gender?: number;
     id?: number;
+    phoneNum?: string;
     updateTime?: string;
     userAccount?: string;
     userAvatar?: string;
     userName?: string;
     userRole?: string;
-  };
-
-  type View = {
-    contentType?: string;
   };
 }

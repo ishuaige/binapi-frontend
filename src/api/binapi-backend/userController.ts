@@ -29,6 +29,14 @@ export async function deleteUserUsingPOST(
   });
 }
 
+/** genKey POST /api/user/gen/key */
+export async function genKeyUsingPOST(options?: { [key: string]: any }) {
+  return request<API.BaseResponseUserDevKeyVO>('/api/user/gen/key', {
+    method: 'POST',
+    ...(options || {}),
+  });
+}
+
 /** getUserById GET /api/user/get */
 export async function getUserByIdUsingGET(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
@@ -55,6 +63,14 @@ export async function getLoginUserUsingGET(options?: { [key: string]: any }) {
 /** getCaptcha GET /api/user/getCaptcha */
 export async function getCaptchaUsingGET(options?: { [key: string]: any }) {
   return request<any>('/api/user/getCaptcha', {
+    method: 'GET',
+    ...(options || {}),
+  });
+}
+
+/** getKey GET /api/user/key */
+export async function getKeyUsingGET(options?: { [key: string]: any }) {
+  return request<API.BaseResponseUserDevKeyVO>('/api/user/key', {
     method: 'GET',
     ...(options || {}),
   });

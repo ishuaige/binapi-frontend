@@ -104,8 +104,10 @@ export default defineConfig({
   openAPI: [
     {
       requestLibPath: "import { request } from '@umijs/max'",
+      // schemaPath: 'http://localhost:8004/api/third/v3/api-docs',
+      //  schemaPath: 'http://localhost:8003/api/order/v3/api-docs',
       schemaPath: 'http://localhost:8080/api/v3/api-docs',
-      projectName: 'binapi',
+      projectName: 'binapi-backend',
     },
   ],
   mfsu: {

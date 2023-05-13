@@ -1,20 +1,18 @@
-import { PlusOutlined } from '@ant-design/icons';
-import type { ActionType, ProColumns, ProDescriptionsItemProps } from '@ant-design/pro-components';
-import { PageContainer, ProDescriptions, ProTable } from '@ant-design/pro-components';
+import {PlusOutlined} from '@ant-design/icons';
+import type {ActionType, ProColumns, ProDescriptionsItemProps} from '@ant-design/pro-components';
+import {PageContainer, ProDescriptions, ProTable} from '@ant-design/pro-components';
 import '@umijs/max';
-import { Button, Drawer, message } from 'antd';
-import React, { useRef, useState } from 'react';
-import {
-  addInterfaceInfoUsingPOST,
-  deleteInterfaceInfoUsingPOST,
-  listInterfaceInfoByPageUsingGET,
-  offlineInterfaceInfoUsingPOST,
-  onlineInterfaceInfoUsingPOST,
-  updateInterfaceInfoUsingPOST,
-} from '@/api/binapi-backend/interfaceInfoController';
-import type { SortOrder } from 'antd/es/table/interface';
+import {Button, Drawer, Image, message} from 'antd';
+import React, {useRef, useState} from 'react';
+import type {SortOrder} from 'antd/es/table/interface';
 import CreateModal from '@/pages/Admin/InterfaceInfo/components/CreateModal';
 import UpdateModal from '@/pages/Admin/InterfaceInfo/components/UpdateModal';
+import {
+  addUserUsingPOST,
+  deleteUserUsingPOST,
+  listUserByPageUsingGET,
+  updateUserUsingPOST
+} from "@/api/binapi-backend/userController";
 
 const TableList: React.FC = () => {
   /**
@@ -43,7 +41,7 @@ const TableList: React.FC = () => {
     }
     const hide = message.loading('修改中');
     try {
-      await updateInterfaceInfoUsingPOST({
+      await updateUserUsingPOST({
         id: currentRow.id,
         ...fields,
       });
@@ -63,10 +61,10 @@ const TableList: React.FC = () => {
    * @zh-CN 添加节点
    * @param fields
    */
-  const handleAdd = async (fields: API.InterfaceInfo) => {
+  const handleAdd = async (fields: API.UserAddRequest) => {
     const hide = message.loading('正在添加');
     try {
-      await addInterfaceInfoUsingPOST({
+      await addUserUsingPOST({
         ...fields,
       });
       hide();
@@ -87,11 +85,11 @@ const TableList: React.FC = () => {
    *
    * @param record
    */
-  const handleRemove = async (record: API.InterfaceInfo) => {
+  const handleRemove = async (record: API.UserVO) => {
     const hide = message.loading('正在删除');
     if (!record) return true;
     try {
-      await deleteInterfaceInfoUsingPOST({
+      await deleteUserUsingPOST({
         id: record.id,
       });
       hide();
@@ -105,56 +103,8 @@ const TableList: React.FC = () => {
       return false;
     }
   };
-  /**
-   *  Delete node
-   * @zh-CN 发布接口
-   *
-   * @param record
-   */
-  const handleOnline = async (record: API.IdRequest) => {
-    const hide = message.loading('正在发布');
-    if (!record) return true;
-    try {
-      await onlineInterfaceInfoUsingPOST({
-        id: record.id,
-      });
-      hide();
-      message.success('发布成功');
-      actionRef.current?.reload();
 
-      return true;
-    } catch (error: any) {
-      hide();
-      message.error('发布失败，' + error.message);
-      return false;
-    }
-  };
-  /**
-   *  Delete node
-   * @zh-CN 下线接口
-   *
-   * @param record
-   */
-  const handleOffline = async (record: API.IdRequest) => {
-    const hide = message.loading('下线中');
-    if (!record) return true;
-    try {
-      await offlineInterfaceInfoUsingPOST({
-        id: record.id,
-      });
-      hide();
-      message.success('下线成功');
-      actionRef.current?.reload();
-
-      return true;
-    } catch (error: any) {
-      hide();
-      message.error('下线失败，' + error.message);
-      return false;
-    }
-  };
-
-  const columns: ProColumns<API.InterfaceInfo>[] = [
+  const columns: ProColumns<API.UserVO>[] = [
     {
       title: 'id',
       dataIndex: 'id',
@@ -162,8 +112,14 @@ const TableList: React.FC = () => {
       width: 50,
     },
     {
-      title: '接口名称',
-      dataIndex: 'name',
+      title: '用户昵称',
+      dataIndex: 'userName',
+      valueType: 'text',
+
+    },
+    {
+      title: '用户账号',
+      dataIndex: 'userAccount',
       valueType: 'text',
       formItemProps: {
         rules: [
@@ -172,56 +128,56 @@ const TableList: React.FC = () => {
           },
         ],
       },
-    },
-    {
-      title: '描述',
-      dataIndex: 'description',
-      valueType: 'textarea',
       ellipsis: true,
     },
     {
-      title: '请求方法',
-      dataIndex: 'method',
+      title: '手机号',
+      dataIndex: 'phoneNum',
       valueType: 'text',
-      hideInTable: true,
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+          },
+        ],
+      },
+      hideInTable: true
     },
     {
-      title: '接口地址',
-      dataIndex: 'url',
+      title: '用户头像',
+      dataIndex: 'userAvatar',
       valueType: 'text',
-      ellipsis: true,
-      hideInTable: true,
+      render: (_, record) => (
+        <div>
+          <Image src={record.userAvatar} width={100}/>
+        </div>
+      ),
+      hideInSearch: true
     },
     {
-      title: '请求参数',
-      dataIndex: 'requestParams',
-      valueType: 'jsonCode',
-      ellipsis: true,
-      hideInTable: true,
-    },
-    {
-      title: '请求头',
-      dataIndex: 'requestHeader',
-      valueType: 'jsonCode',
-      hideInTable: true,
-    },
-    {
-      title: '响应头',
-      dataIndex: 'responseHeader',
-      valueType: 'jsonCode',
-      hideInTable: true,
-    },
-    {
-      title: '状态',
-      dataIndex: 'status',
-      width: 70,
+      title: '性别',
+      dataIndex: 'gender',
+      valueType: 'text',
+      width: 50,
       valueEnum: {
         0: {
-          text: '关闭',
-          status: 'Default',
+          text: '男',
         },
         1: {
-          text: '开启',
+          text: '女',
+        },
+      },
+    },
+    {
+      title: '角色',
+      dataIndex: 'userRole',
+      valueEnum: {
+        'user': {
+          text: '用户',
+          status: 'Default',
+        },
+        'admin': {
+          text: '管理员',
           status: 'Processing',
         },
       },
@@ -256,30 +212,6 @@ const TableList: React.FC = () => {
         >
           修改
         </Button>,
-        record.status === 0 ? (
-          <Button
-            size={"small"}
-            type={'text'}
-            key="online"
-            onClick={() => {
-              handleOnline(record);
-            }}
-          >
-            发布
-          </Button>
-        ) : (
-          <Button
-            size={"small"}
-            type={'text'}
-            key="offline"
-            onClick={() => {
-              handleOffline(record);
-            }}
-          >
-            下线
-          </Button>
-        ),
-
         <Button
           type={'text'}
           size={"small"}
@@ -311,7 +243,7 @@ const TableList: React.FC = () => {
               handleModalVisible(true);
             }}
           >
-            <PlusOutlined /> 新建
+            <PlusOutlined/> 新建
           </Button>,
         ]}
         request={async (
@@ -323,7 +255,7 @@ const TableList: React.FC = () => {
           sort: Record<string, SortOrder>,
           filter: Record<string, React.ReactText[] | null>,
         ) => {
-          const res = await listInterfaceInfoByPageUsingGET({
+          const res = await listUserByPageUsingGET({
             ...params,
           });
           if (res?.data) {

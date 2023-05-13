@@ -1,8 +1,8 @@
-import { GithubOutlined } from '@ant-design/icons';
+import {BookFilled, GithubOutlined} from '@ant-design/icons';
 import { DefaultFooter } from '@ant-design/pro-components';
 import '@umijs/max';
 const Footer: React.FC = () => {
-  const defaultMessage = '蚂蚁集团体验技术部出品';
+  const defaultMessage = 'Dogbin出品';
   const currentYear = new Date().getFullYear();
   return (
     <DefaultFooter
@@ -12,22 +12,28 @@ const Footer: React.FC = () => {
       copyright={`${currentYear} ${defaultMessage}`}
       links={[
         {
-          key: 'Ant Design Pro',
-          title: 'Ant Design Pro',
-          href: 'https://pro.ant.design',
-          blankTarget: true,
+          key: 'Bin API',
+          title: 'Bin API',
+          href: '',
+          // blankTarget: true,
         },
         {
           key: 'github',
           title: <GithubOutlined />,
-          href: 'https://github.com/ant-design/ant-design-pro',
+          href: 'https://github.com/ishuaige',
           blankTarget: true,
         },
         {
-          key: 'Ant Design',
-          title: 'Ant Design',
-          href: 'https://ant.design',
+          key: 'blob',
+          title: <BookFilled />,
+          href: 'https://dogbin.vip',
           blankTarget: true,
+        },
+        {
+          key: 'Bin API',
+          title: 'Bin API',
+          href: '',
+          // blankTarget: true,
         },
       ]}
     />

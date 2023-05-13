@@ -1,11 +1,11 @@
 import Footer from '@/components/Footer';
-import { ArrowRightOutlined, LockOutlined, MobileOutlined, UserOutlined } from '@ant-design/icons';
+import {ArrowRightOutlined, LockOutlined, MobileOutlined, SmileOutlined, UserOutlined} from '@ant-design/icons';
 import { LoginForm, ProFormCaptcha, ProFormText } from '@ant-design/pro-components';
 import { Alert, message, Tabs } from 'antd';
 import React, { useState } from 'react';
 import styles from './index.less';
 import { history, Link } from '@@/exports';
-import {getCaptchaUsingGET, smsCaptchaUsingGET, userRegisterUsingPOST} from '@/services/binapi/userController';
+import {getCaptchaUsingGET, smsCaptchaUsingGET, userRegisterUsingPOST} from '@/api/binapi-backend/userController';
 import { randomStr } from '@antfu/utils';
 
 const LoginMessage: React.FC<{
@@ -99,14 +99,13 @@ const Register: React.FC = () => {
             },
           }}
           logo={<img alt="logo" src="/logo.svg" />}
-          title="Ant Design"
+          title="Bin API"
           subTitle={
             <>
               {/* eslint-disable-next-line react/no-unescaped-entities */}
               <p>
-                <a>Good Good Study,Day Day up!</a>
+                <b>一个丰富的API开放调用平台</b>
               </p>
-              <Link to="/user/login">已有帐号？去登录！</Link>
             </>
           }
           onFinish={async (values) => {
@@ -126,16 +125,30 @@ const Register: React.FC = () => {
           {
             <>
               <ProFormText
+                name="userName"
+                fieldProps={{
+                  size: 'large',
+                  prefix: <SmileOutlined className={styles.prefixIcon}/>
+                }}
+                placeholder={'昵称：昵称小于7个字'}
+                rules={[
+                  {
+                    required: true,
+                    message: '昵称是必填项！',
+                  },
+                ]}
+              />
+              <ProFormText
                 name="userAccount"
                 fieldProps={{
                   size: 'large',
                   prefix: <UserOutlined className={styles.prefixIcon} />,
                 }}
-                placeholder={'用户名: admin or user'}
+                placeholder={'账号：账号应大于4个字小于13个字'}
                 rules={[
                   {
                     required: true,
-                    message: '用户名是必填项！',
+                    message: '账号是必填项！',
                   },
                 ]}
               />
@@ -145,7 +158,7 @@ const Register: React.FC = () => {
                   size: 'large',
                   prefix: <LockOutlined className={styles.prefixIcon} />,
                 }}
-                placeholder={'密码: ant.design'}
+                placeholder={'密码: 至少8位'}
                 rules={[
                   {
                     required: true,
@@ -159,7 +172,7 @@ const Register: React.FC = () => {
                   size: 'large',
                   prefix: <LockOutlined className={styles.prefixIcon} />,
                 }}
-                placeholder={'确认密码: ant.design'}
+                placeholder={'确认密码'}
                 rules={[
                   {
                     required: true,
@@ -262,7 +275,18 @@ const Register: React.FC = () => {
             style={{
               marginBottom: 24,
             }}
-          ></div>
+          >
+            <Link
+              style={{
+                marginBottom: 24,
+                float: 'right'
+              }}
+              to={'/user/login'}
+            >
+              已有帐号，去登陆！
+            </Link>
+          </div>
+
         </LoginForm>
       </div>
       <Footer />
