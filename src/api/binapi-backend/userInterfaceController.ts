@@ -47,6 +47,21 @@ export async function getUserInterfaceInfoByIdUsingGET(
   });
 }
 
+/** getFreeInterfaceCount POST /api/userInterfaceInfo/get/free */
+export async function getFreeInterfaceCountUsingPOST(
+  body: API.UpdateUserInterfaceInfoDTO,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseboolean>('/api/userInterfaceInfo/get/free', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
 /** listUserInterfaceInfo GET /api/userInterfaceInfo/list */
 export async function listUserInterfaceInfoUsingGET(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)

@@ -17,6 +17,7 @@ import {
 } from '@/api/binapi-backend/interfaceInfoController';
 import { useModel, useParams } from '@@/exports';
 import { addOrderUsingPOST } from '@/api/binapi-order/orderController';
+import { getFreeInterfaceCountUsingPOST } from '@/api/binapi-backend/userInterfaceController';
 
 const Index: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -28,13 +29,14 @@ const Index: React.FC = () => {
   const [orderCount, setOrderCount] = useState(1);
   const [totalAmount, setTotalAmount] = useState(1.0);
   const { initialState, setInitialState } = useModel('@@initialState');
+  const { loginUser } = initialState;
+
   const showAddOrderModal = () => {
     setTotalAmount(parseFloat((orderCount * parseFloat(data?.charging)).toFixed(2)));
     setAddOrderModalOpen(true);
   };
 
   const handleAddOrderOk = async () => {
-    const { loginUser } = initialState;
     setLoading(true);
     try {
       const res = await addOrderUsingPOST({
@@ -45,7 +47,7 @@ const Index: React.FC = () => {
         charging: data.charging,
         chargingId: data.chargingId,
       });
-      if(res.code === 0){
+      if (res.code === 0) {
         message.success('订单创建成功');
       }
     } catch (e: any) {
@@ -76,7 +78,7 @@ const Index: React.FC = () => {
       const res = await getInterfaceInfoByIdUsingGET({
         id: Number(params.id),
       });
-      console.log(res)
+      console.log(res);
       setData(res.data);
     } catch (e: any) {
       message.error('获取数据失败，' + e.message);
@@ -100,8 +102,11 @@ const Index: React.FC = () => {
         ...values,
         id: params.id,
       });
-      setInvokeRes(res.data);
-      message.success('请求成功');
+
+      if(res.code === 0){
+        setInvokeRes(res.data);
+        message.success('请求成功');
+      }
     } catch (e: any) {
       message.error('请求失败，' + e.message);
     }
@@ -109,6 +114,25 @@ const Index: React.FC = () => {
     return;
   };
 
+  const getFreeInterface = async () => {
+    setInvokeLoading(true);
+    try {
+      const res = await getFreeInterfaceCountUsingPOST({
+        userId: loginUser.id,
+        interfaceId: data?.id,
+        lockNum: 100,
+      });
+      if (res.data) {
+        message.success('获取调用次数成功');
+      } else {
+        message.error('获取失败请重试');
+      }
+    } catch (e:any) {
+      message.error('请求失败，' + e.message);
+    }
+    setInvokeLoading(false);
+    return
+  };
   return (
     <>
       <PageContainer title="查看接口文档">
@@ -117,7 +141,13 @@ const Index: React.FC = () => {
             <Descriptions
               title={data?.name}
               column={1}
-              extra={data.charging ? <Button onClick={showAddOrderModal}>购买</Button> : null}
+              extra={
+                data.charging ? (
+                  <Button onClick={showAddOrderModal}>购买</Button>
+                ) : (
+                  <Button onClick={getFreeInterface}>获取</Button>
+                )
+              }
             >
               <Descriptions.Item label="接口状态">
                 {data.status ? '正常' : '关闭'}

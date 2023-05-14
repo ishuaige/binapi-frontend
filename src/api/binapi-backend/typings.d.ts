@@ -456,6 +456,12 @@ declare namespace API {
     phoneNum: string;
   };
 
+  type UpdateUserInterfaceInfoDTO = {
+    interfaceId?: number;
+    lockNum?: number;
+    userId?: number;
+  };
+
   type User = {
     accessKey?: string;
     createTime?: string;

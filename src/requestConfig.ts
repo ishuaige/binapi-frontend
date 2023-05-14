@@ -31,6 +31,7 @@ export const requestConfig: RequestConfig = {
   // 响应拦截器
   responseInterceptors: [
     (response) => {
+
       // 拦截响应数据，进行个性化处理
       const { data } = response as unknown as ResponseStructure;
       if (
