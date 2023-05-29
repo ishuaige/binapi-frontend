@@ -130,6 +130,21 @@ export async function getSdkUsingGET(options?: { [key: string]: any }) {
   });
 }
 
+/** search POST /api/interfaceInfo/search */
+export async function searchUsingPOST(
+  body: API.InterfaceInfoSearchRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponsePageInterfaceInfo>('/api/interfaceInfo/search', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
 /** updateInterfaceInfo POST /api/interfaceInfo/update */
 export async function updateInterfaceInfoUsingPOST(
   body: API.InterfaceInfoUpdateRequest,

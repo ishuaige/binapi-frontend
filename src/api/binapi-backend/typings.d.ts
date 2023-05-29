@@ -224,6 +224,15 @@ declare namespace API {
     userRequestParams?: string;
   };
 
+  type InterfaceInfoSearchRequest = {
+    current?: number;
+    pageSize?: number;
+    searchText?: string;
+    sortField?: string;
+    sortOrder?: string;
+    type?: string;
+  };
+
   type InterfaceInfoUpdateRequest = {
     description?: string;
     id?: number;

@@ -23,9 +23,13 @@ export default [
   },
   {
     path: '/user',
-    routes: [
-      { name: '个人信息', path: '/user/info', component: './User/Info' },
-    ],
+    routes: [{ name: '个人信息', path: '/user/info', component: './User/Info' }],
+  },
+  {
+    path: '/search',
+    name: '搜索接口',
+    icon: 'SearchOutlined',
+    component: './InterfaceSearch',
   },
   {
     path: '/order',
