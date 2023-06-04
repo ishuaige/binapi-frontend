@@ -1,46 +1,45 @@
 import { PageContainer } from '@ant-design/pro-components';
 import '@umijs/max';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactECharts from 'echarts-for-react';
 import {
   listTopBuyInterfaceInfoUsingGET,
-  listTopInvokeInterfaceInfoUsingGET
-} from "@/api/binapi-backend/analysisController";
-
+  listTopInvokeInterfaceInfoUsingGET, topBuyInterfaceInfoExcelUsingGET, topInvokeInterfaceInfoExcelUsingGET,
+} from '@/api/binapi-backend/analysisController';
+import { Button, Card, Divider } from 'antd';
+import { DownloadOutlined } from '@ant-design/icons';
+import {requestConfig} from "@/requestConfig";
 
 /**
  * 接口分析
  * @constructor
  */
 const InterfaceAnalysis: React.FC = () => {
-
   const [invokeTopdata, setInvokeTopdata] = useState<API.InterfaceInfoVO[]>([]);
   const [buyTopdata, setBuyTopdata] = useState<API.OrderVO[]>([]);
 
   useEffect(() => {
     try {
-      listTopInvokeInterfaceInfoUsingGET().then(res => {
+      listTopInvokeInterfaceInfoUsingGET().then((res) => {
         if (res.data) {
           setInvokeTopdata(res.data);
         }
-      })
-      listTopBuyInterfaceInfoUsingGET().then(res=>{
+      });
+      listTopBuyInterfaceInfoUsingGET().then((res) => {
         if (res.data) {
           setBuyTopdata(res.data);
         }
-      })
-    } catch (e: any) {
-
-    }
-  }, [])
+      });
+    } catch (e: any) {}
+  }, []);
 
   // 映射：{ value: 1048, name: 'Search Engine' },
-  const invokeChartData = invokeTopdata.map(item => {
+  const invokeChartData = invokeTopdata.map((item) => {
     return {
       value: item.totalNum,
       name: item.name,
-    }
-  })
+    };
+  });
 
   const invokeOption = {
     title: {
@@ -71,18 +70,17 @@ const InterfaceAnalysis: React.FC = () => {
     ],
   };
 
-
   // 映射：{ value: 1048, name: 'Search Engine' },
-  const buyChartData = buyTopdata.map(item => {
+  const buyChartData = buyTopdata.map((item) => {
     return {
       value: item.total,
       name: item.interfaceName,
-    }
-  })
+    };
+  });
 
   const buyOption = {
     title: {
-      text: '购买次数最多的接口TOP5',
+      text: `购买次数最多的接口TOP5`,
       left: 'center',
     },
     tooltip: {
@@ -111,8 +109,33 @@ const InterfaceAnalysis: React.FC = () => {
 
   return (
     <PageContainer>
-      <ReactECharts option={invokeOption} />
-      <ReactECharts option={buyOption} />
+      <Card
+        bordered={false}
+        extra={
+          <Button type="primary" icon={<DownloadOutlined />} onClick={()=>{
+            window.location.href = requestConfig.baseURL + '/api/analysis/top/interface/invoke/excel';
+          }
+          }>
+            下载统计表格
+          </Button>
+        }
+      >
+        <ReactECharts option={invokeOption} />
+      </Card>
+      <Divider />
+      <Card
+        bordered={false}
+        extra={
+          <Button type="primary" icon={<DownloadOutlined />}onClick={()=>{
+            window.location.href = requestConfig.baseURL + '/api/analysis/top/interface/buy/excel';
+          }
+          }>
+            下载统计表格
+          </Button>
+        }
+      >
+        <ReactECharts option={buyOption} />
+      </Card>
     </PageContainer>
   );
 };

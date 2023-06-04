@@ -38,7 +38,8 @@ export const requestConfig: RequestConfig = {
         data.code !== 0 &&
         response.headers['content-type'] !== 'image/jpeg' &&
         response.headers['content-type'] !== 'text/html;charset=utf-8' &&
-        response.headers['content-type'] !== 'application/octet-stream'
+        response.headers['content-type'] !== 'application/octet-stream'&&
+        response.headers['content-type'] !== 'application/vnd.ms-excel;charset=utf-8'
       ) {
         if (
           data.code === 40100 ||

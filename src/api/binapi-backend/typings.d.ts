@@ -339,6 +339,7 @@ declare namespace API {
     gender?: number;
     id?: number;
     pageSize?: number;
+    phoneNum?: string;
     sortField?: string;
     sortOrder?: string;
     updateTime?: string;
@@ -380,6 +381,7 @@ declare namespace API {
     gender?: number;
     id?: number;
     pageSize?: number;
+    phoneNum?: string;
     sortField?: string;
     sortOrder?: string;
     updateTime?: string;

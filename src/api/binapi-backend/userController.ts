@@ -188,3 +188,15 @@ export async function updateUserUsingPOST(
     ...(options || {}),
   });
 }
+
+/** updateUserAvatar POST /api/user/update/avatar */
+export async function updateUserAvatarUsingPOST(body: string, options?: { [key: string]: any }) {
+  return request<API.BaseResponseboolean>('/api/user/update/avatar', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}

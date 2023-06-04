@@ -64,6 +64,7 @@ const Index: React.FC = () => {
         <Tabs defaultActiveKey="native" items={items} onChange={typeChange} />
 
         <List
+          loading={loading}
           grid={{
             gutter: 16,
             xs: 1,

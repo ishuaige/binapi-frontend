@@ -1,18 +1,18 @@
-import {PlusOutlined} from '@ant-design/icons';
-import type {ActionType, ProColumns, ProDescriptionsItemProps} from '@ant-design/pro-components';
-import {PageContainer, ProDescriptions, ProTable} from '@ant-design/pro-components';
+import { PlusOutlined } from '@ant-design/icons';
+import type { ActionType, ProColumns, ProDescriptionsItemProps } from '@ant-design/pro-components';
+import { PageContainer, ProDescriptions, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
-import {Button, Drawer, Image, message} from 'antd';
-import React, {useRef, useState} from 'react';
-import type {SortOrder} from 'antd/es/table/interface';
+import { Button, Drawer, Image, message } from 'antd';
+import React, { useRef, useState } from 'react';
+import type { SortOrder } from 'antd/es/table/interface';
 import CreateModal from '@/pages/Admin/InterfaceInfo/components/CreateModal';
 import UpdateModal from '@/pages/Admin/InterfaceInfo/components/UpdateModal';
 import {
   addUserUsingPOST,
   deleteUserUsingPOST,
   listUserByPageUsingGET,
-  updateUserUsingPOST
-} from "@/api/binapi-backend/userController";
+  updateUserUsingPOST,
+} from '@/api/binapi-backend/userController';
 
 const TableList: React.FC = () => {
   /**
@@ -115,7 +115,6 @@ const TableList: React.FC = () => {
       title: '用户昵称',
       dataIndex: 'userName',
       valueType: 'text',
-
     },
     {
       title: '用户账号',
@@ -141,7 +140,6 @@ const TableList: React.FC = () => {
           },
         ],
       },
-      hideInTable: true
     },
     {
       title: '用户头像',
@@ -149,34 +147,30 @@ const TableList: React.FC = () => {
       valueType: 'text',
       render: (_, record) => (
         <div>
-          <Image src={record.userAvatar} width={100}/>
+          <Image src={record.userAvatar} width={100} />
         </div>
       ),
-      hideInSearch: true
+      hideInSearch: true,
     },
     {
       title: '性别',
       dataIndex: 'gender',
       valueType: 'text',
       width: 50,
-      valueEnum: {
-        0: {
-          text: '男',
-        },
-        1: {
-          text: '女',
-        },
-      },
+      valueEnum: new Map([
+        [1, '女'],
+        [0, '男'],
+      ]),
     },
     {
       title: '角色',
       dataIndex: 'userRole',
       valueEnum: {
-        'user': {
+        user: {
           text: '用户',
           status: 'Default',
         },
-        'admin': {
+        admin: {
           text: '管理员',
           status: 'Processing',
         },
@@ -194,6 +188,7 @@ const TableList: React.FC = () => {
       valueType: 'dateTime',
       hideInTable: true,
       hideInForm: true,
+      hideInSearch: true,
     },
     {
       title: '操作',
@@ -201,10 +196,9 @@ const TableList: React.FC = () => {
       valueType: 'option',
       render: (_, record) => [
         <Button
-          size={"small"}
+          size={'small'}
           type={'text'}
           key="edit"
-
           onClick={() => {
             handleUpdateModalVisible(true);
             setCurrentRow(record);
@@ -214,7 +208,7 @@ const TableList: React.FC = () => {
         </Button>,
         <Button
           type={'text'}
-          size={"small"}
+          size={'small'}
           danger
           key="remove"
           onClick={() => {
@@ -243,7 +237,7 @@ const TableList: React.FC = () => {
               handleModalVisible(true);
             }}
           >
-            <PlusOutlined/> 新建
+            <PlusOutlined /> 新建
           </Button>,
         ]}
         request={async (
