@@ -214,7 +214,7 @@ const TableList: React.FC = () => {
     {
       title: '状态',
       dataIndex: 'status',
-      width: 70,
+      width: 80,
       valueEnum: {
         0: {
           text: '关闭',
@@ -223,6 +223,10 @@ const TableList: React.FC = () => {
         1: {
           text: '开启',
           status: 'Processing',
+        },
+        2: {
+          text: '待审核',
+          status: 'Default',
         },
       },
     },

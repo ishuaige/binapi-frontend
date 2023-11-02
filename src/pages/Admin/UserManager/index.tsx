@@ -56,6 +56,7 @@ const TableList: React.FC = () => {
     }
   };
 
+
   /**
    * @en-US Add node
    * @zh-CN 添加节点
@@ -222,6 +223,7 @@ const TableList: React.FC = () => {
   ];
   return (
     <PageContainer>
+
       <ProTable<API.RuleListItem, API.PageParams>
         headerTitle={'查询表格'}
         actionRef={actionRef}

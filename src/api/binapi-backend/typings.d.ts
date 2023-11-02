@@ -71,6 +71,12 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponsePageInterfaceAuditVO = {
+    code?: number;
+    data?: PageInterfaceAuditVO;
+    message?: string;
+  };
+
   type BaseResponsePageInterfaceCharging = {
     code?: number;
     data?: PageInterfaceCharging;
@@ -129,6 +135,18 @@ declare namespace API {
     id?: number;
   };
 
+  type getInterfaceAuditListUsingPOSTParams = {
+    approverId?: number;
+    auditStatus?: number;
+    current?: number;
+    interfaceId?: number;
+    pageSize?: number;
+    remark?: string;
+    sortField?: string;
+    sortOrder?: string;
+    userId?: number;
+  };
+
   type getInterfaceChargingByIdUsingGETParams = {
     /** id */
     id?: number;
@@ -156,6 +174,24 @@ declare namespace API {
 
   type IdRequest = {
     id?: number;
+  };
+
+  type InterfaceAuditRequest = {
+    id?: number;
+    remark?: string;
+  };
+
+  type InterfaceAuditVO = {
+    approverAccount?: string;
+    approverId?: number;
+    auditStatus?: number;
+    createTime?: string;
+    id?: number;
+    interfaceInfo?: InterfaceInfo;
+    remark?: string;
+    updateTime?: string;
+    userAccount?: string;
+    userId?: number;
   };
 
   type InterfaceCharging = {
@@ -210,9 +246,12 @@ declare namespace API {
   };
 
   type InterfaceInfoAddRequest = {
+    availablePieces?: string;
+    charging?: number;
     description?: string;
     method?: string;
     name?: string;
+    needCharge?: boolean;
     requestHeader?: string;
     requestParams?: string;
     responseHeader?: string;
@@ -408,6 +447,19 @@ declare namespace API {
     total?: number;
     totalAmount?: number;
     userId?: number;
+  };
+
+  type PageInterfaceAuditVO = {
+    countId?: string;
+    current?: number;
+    maxLimit?: number;
+    optimizeCountSql?: boolean;
+    orders?: OrderItem[];
+    pages?: number;
+    records?: InterfaceAuditVO[];
+    searchCount?: boolean;
+    size?: number;
+    total?: number;
   };
 
   type PageInterfaceCharging = {

@@ -31,6 +31,8 @@ const Index: React.FC = () => {
   const { initialState, setInitialState } = useModel('@@initialState');
   const { loginUser } = initialState;
 
+  const interfaceStatus=["关闭","正常","待审核"];
+
   const showAddOrderModal = () => {
     setTotalAmount(parseFloat((orderCount * parseFloat(data?.charging)).toFixed(2)));
     setAddOrderModalOpen(true);
@@ -150,7 +152,7 @@ const Index: React.FC = () => {
               }
             >
               <Descriptions.Item label="接口状态">
-                {data.status ? '正常' : '关闭'}
+                {interfaceStatus[data.status]}
               </Descriptions.Item>
               <Descriptions.Item label="描述">{data.description}</Descriptions.Item>
               {data.charging ? (
