@@ -2,7 +2,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns, ProDescriptionsItemProps } from '@ant-design/pro-components';
 import { PageContainer, ProDescriptions, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
-import { Button, Drawer, message } from 'antd';
+import { Badge, Button, Drawer, message } from 'antd';
 import React, { useRef, useState } from 'react';
 import {
   addInterfaceInfoUsingPOST,
@@ -215,20 +215,23 @@ const TableList: React.FC = () => {
       title: '状态',
       dataIndex: 'status',
       width: 80,
-      valueEnum: {
-        0: {
-          text: '关闭',
-          status: 'Default',
-        },
-        1: {
-          text: '开启',
-          status: 'Processing',
-        },
-        2: {
-          text: '待审核',
-          status: 'Default',
-        },
+      render: (_, record) => {
+        switch (record.status) {
+          case 0:
+            return <Badge key={record.status} color={'red'} text={'已关闭'} />;
+          case 1:
+            return <Badge key={record.status} color={'green'} text={'已开启'} />;
+          case 2:
+            return <Badge key={record.status} color={'orange'} text={'待审核'} />;
+          default:
+            return <Badge key={record.status} color={'blue'} text={'未知'} />;
+        }
       },
+      valueEnum: new Map([
+        [0, '已关闭'],
+        [1, '已开启'],
+        [2, '待审核'],
+      ]),
     },
     {
       title: '创建时间',
@@ -249,10 +252,9 @@ const TableList: React.FC = () => {
       valueType: 'option',
       render: (_, record) => [
         <Button
-          size={"small"}
+          size={'small'}
           type={'text'}
           key="edit"
-
           onClick={() => {
             handleUpdateModalVisible(true);
             setCurrentRow(record);
@@ -262,7 +264,7 @@ const TableList: React.FC = () => {
         </Button>,
         record.status === 0 ? (
           <Button
-            size={"small"}
+            size={'small'}
             type={'text'}
             key="online"
             onClick={() => {
@@ -273,7 +275,7 @@ const TableList: React.FC = () => {
           </Button>
         ) : (
           <Button
-            size={"small"}
+            size={'small'}
             type={'text'}
             key="offline"
             onClick={() => {
@@ -286,7 +288,7 @@ const TableList: React.FC = () => {
 
         <Button
           type={'text'}
-          size={"small"}
+          size={'small'}
           danger
           key="remove"
           onClick={() => {
